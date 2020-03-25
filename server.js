@@ -1,9 +1,14 @@
-const express = require('express')
+const express = require("express");
 
-const app=express()
-app.get('/',(req,res)=>{
-    res.send('Hi there')
-})
-const PORT=process.env.PORT||3000;
+const app = express();
+app.get("/", (req, res) => {
+  res.json({ msg: "Contact keeper API" });
+});
 
-app.listen(PORT,()=>console.log(`server running on port ${PORT}`))
+//Define our routes
+app.use("/api/users", require("./routes/users"));
+app.use("/api/auth", require("./routes/auth"));
+app.use("/api/contacts", require("./routes/contacts"));
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => console.log(`server running on port ${PORT}`));
