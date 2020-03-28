@@ -8,9 +8,6 @@ connectDb();
 //Init middleware
 //re body
 app.use(express.json({ extended: false }));
-app.get("/", (req, res) => {
-  res.json({ msg: "Contact keeper API" });
-});
 
 //Define our routes
 app.use("/api/users", require("./routes/users"));
