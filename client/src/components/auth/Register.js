@@ -1,6 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import PropTypes from "prop-types";
 import AlertContext from "../../context/alert/alertContext";
+import AuthContext from "../../context/auth/authContext";
 
 const Register = props => {
   const [user, setUser] = useState({
@@ -10,20 +11,35 @@ const Register = props => {
     password2: ""
   });
   const alertContext = useContext(AlertContext);
+  const authContext = useContext(AuthContext);
   const { setAlert } = alertContext;
+  const { register, error, clearErrors } = authContext;
   const { name, email, password, password2 } = user;
+  //UI showing errors
+  useEffect(() => {
+    if (error === "User already exist") {
+      setAlert(error, "danger");
+      clearErrors();
+    }
+  }, [error]);
 
   const onChange = e => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
+
   const onSubmit = e => {
     e.preventDefault();
     if (name === "" || email === "" || password === "") {
       setAlert("Please enter all fields", "danger");
     } else if (password !== password2) {
       setAlert("Passwords do not match", "danger");
+    } else {
+      register({
+        name,
+        email,
+        password
+      });
     }
-    console.log("register");
   };
   return (
     <div className="form-container">
@@ -68,7 +84,7 @@ const Register = props => {
             type="password"
             name="password2"
             value={password2}
-            minLength="6" 
+            minLength="6"
             required
             onChange={onChange}
           />
