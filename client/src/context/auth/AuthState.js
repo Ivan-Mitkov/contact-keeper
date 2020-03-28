@@ -70,7 +70,32 @@ const AuthState = props => {
     }
   };
   //Login user
-  const login = () => {};
+  const login = async formData => {
+    //need application/json in headers
+    const config = {
+      headers: {
+        "Content-type": "application/json"
+      }
+    };
+    try {
+      const res = await axios.post("/api/auth", formData, config);
+      //send data to the reducer
+      //hit routes/api/users
+      //send form and wait for response which contains token
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data
+      });
+      //after register user get user from backend and put it into the state
+      loadUser();
+    } catch (error) {
+      //backend send error mesage in msg property
+      dispatch({
+        type: LOGIN_FAIL,
+        payload: error.response.data.msg
+      });
+    }
+  };
 
   //Logout user
   const logout = () => {};
