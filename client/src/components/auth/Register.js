@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from "react";
-import PropTypes from "prop-types";
 import AlertContext from "../../context/alert/alertContext";
 import AuthContext from "../../context/auth/authContext";
 
@@ -103,6 +102,5 @@ const Register = props => {
   );
 };
 
-Register.propTypes = {};
 
 export default Register;
